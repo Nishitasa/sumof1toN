@@ -26,8 +26,9 @@ Open the Terminal leafpad and apply the code .Save the file
 Then give the command:
 
 gcc file name
+
 /.a.out
 ![Output](https://github.com/Nishitasa/sumof1toN/assets/173664538/e60ade6d-68bd-470e-b5f9-3862b54f0e6d)
 The output is displayed 
 ![The project which is applied to riscv](https://github.com/Nishitasa/sumof1toN/assets/173664538/1f33ae24-b198-4a7c-9a60-381fdf1fe6dd)
-Apply them in RISCV64 and output is successfully verified
+Apply them in RISCV64 and output is successfully verified.
