@@ -1,3 +1,5 @@
+VSD QUADRON INTERN
+
 Task 1
 Write a c program to count the sum of 1 to N
 ![Virtual box installation](https://github.com/Nishitasa/sumof1toN/assets/173664538/982957fc-32b6-4fad-bcc5-5125da4cc46e)
@@ -19,7 +21,9 @@ My project title is Creating a Smart Elevator Controller
 
 A smart elevator, refers to an elevator system that incorporates advanced technologies to enhance efficiency, safety, and user experience. These elevators utilize various sensors, algorithms, and connectivity features to improve their performance and functionality. These elevators are particularly beneficial in high-traffic buildings where efficient vertical transportation is crucial. Key features of smart elevators include:
 Traffic Analysis and Optimization
+
 Security and Access Control
+
 Energy Efficiency
 ![The code applied for smart elevator controller](https://github.com/Nishitasa/sumof1toN/assets/173664538/d8c23bc2-8174-42bd-bd8c-9dd8531c290e)
 Open the Terminal leafpad and apply the code .Save the file
@@ -31,4 +35,4 @@ gcc file name
 ![Output](https://github.com/Nishitasa/sumof1toN/assets/173664538/e60ade6d-68bd-470e-b5f9-3862b54f0e6d)
 The output is displayed 
 ![The project which is applied to riscv](https://github.com/Nishitasa/sumof1toN/assets/173664538/1f33ae24-b198-4a7c-9a60-381fdf1fe6dd)
-Apply them in RISCV64 and output is successfully verified.
+Converting the C program to RISCV and complied to recieve the output
