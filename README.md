@@ -1,6 +1,6 @@
-VSD QUADRON INTERN
+# Vsdsquadron-mini-Internship
 
-Task 1
+## Task 1 
 Write a c program to count the sum of 1 to N
 ![Virtual box installation](https://github.com/Nishitasa/sumof1toN/assets/173664538/982957fc-32b6-4fad-bcc5-5125da4cc46e)
 Installation of Virtual box 
@@ -15,8 +15,8 @@ RISCV64 output
 
 Task 1 completed
 
-TASK 2
-My project title is Creating a Smart Elevator Controller 
+## TASK 2
+**My project title is Creating a Smart Elevator Controller**
 ![image](https://github.com/Nishitasa/sumof1toN/assets/173664538/c7da7880-ef91-4560-86f9-2bdda08b4021)
 
 A smart elevator, refers to an elevator system that incorporates advanced technologies to enhance efficiency, safety, and user experience. These elevators utilize various sensors, algorithms, and connectivity features to improve their performance and functionality. These elevators are particularly beneficial in high-traffic buildings where efficient vertical transportation is crucial. Key features of smart elevators include:
@@ -37,11 +37,11 @@ The output is displayed
 ![The project which is applied to riscv](https://github.com/Nishitasa/sumof1toN/assets/173664538/1f33ae24-b198-4a7c-9a60-381fdf1fe6dd)
 Converting the C program to RISCV and complied to recieve the output
 
-TASK 3
+## TASK 3
 
 We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast. 
 
-With -O1 command:
+**With -O1 command**:
 
 The output we got from gcc should be equal to the simulation.The command riscv64-unknown-elf-gcc-O1 -mabi=lp64 -march=rv64i -o elevator.o elevator.c.Then run the code and give them the required output in C .
 
@@ -57,7 +57,7 @@ until pc 0 10230 refers that after 10230 they debug .Type reg 0 sp
 ![Screenshot from 2024-06-27 10-48-11](https://github.com/Nishitasa/sumof1toN/assets/173664538/3e876312-dda3-4e3e-be4f-2d309b38c17a)
 ![Screenshot from 2024-06-27 10-52-01](https://github.com/Nishitasa/sumof1toN/assets/173664538/56f651e4-a9a6-45ba-9ff1-899be3960b41)
 
-Next with -Ofast command:
+**Next with -Ofast command**:
 
 This is same as above .The command riscv64-unknown-elf-gcc-O1 -mabi=lp64 -march=rv64i -o elevator.o elevator.c.Then run the code and give them the required output in C
 Then use the command gcc elevator.c .Output is verified using ./a.out command
