@@ -36,3 +36,44 @@ gcc file name
 The output is displayed 
 ![The project which is applied to riscv](https://github.com/Nishitasa/sumof1toN/assets/173664538/1f33ae24-b198-4a7c-9a60-381fdf1fe6dd)
 Converting the C program to RISCV and complied to recieve the output
+
+TASK 3
+
+We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast. 
+
+With -O1 command:
+
+The output we got from gcc should be equal to the simulation.The command riscv64-unknown-elf-gcc-O1 -mabi=lp64 -march=rv64i -o elevator.o elevator.c.Then run the code and give them the required output in C .
+
+![Screenshot from 2024-06-27 10-30-09](https://github.com/Nishitasa/sumof1toN/assets/173664538/47295c95-9379-4e57-9bdc-513f10b4e0d5)
+
+Therefore verification for command -O1 is done.Run them using spike simulation
+
+Here we will debug the code from main.We use the command spike -d pk elevator.o
+
+The initial address we see from the code is 10230 so we point them using counter.
+
+until pc 0 10230 refers that after 10230 they debug .Type reg 0 sp
+![Screenshot from 2024-06-27 10-48-11](https://github.com/Nishitasa/sumof1toN/assets/173664538/3e876312-dda3-4e3e-be4f-2d309b38c17a)
+![Screenshot from 2024-06-27 10-52-01](https://github.com/Nishitasa/sumof1toN/assets/173664538/56f651e4-a9a6-45ba-9ff1-899be3960b41)
+
+Next with -Ofast command:
+
+This is same as above .The command riscv64-unknown-elf-gcc-O1 -mabi=lp64 -march=rv64i -o elevator.o elevator.c.Then run the code and give them the required output in C
+Then use the command gcc elevator.c .Output is verified using ./a.out command
+
+![Screenshot from 2024-06-27 10-58-02](https://github.com/Nishitasa/sumof1toN/assets/173664538/055b5c8f-2010-4e10-8f4e-e920336c83d7)
+
+Run using spike simulation
+![Screenshot from 2024-06-27 10-59-18](https://github.com/Nishitasa/sumof1toN/assets/173664538/1d329252-0daa-40f2-bb09-5a638b19ab34)
+The starting address is 10230 we see the next instruction manually by clicking ENTER.
+Apply spike -d pk elevator.o
+
+To view next reg 0 a2 gives the register value at a2 operand.Click ENTER
+
+Then various address are available
+![Screenshot from 2024-06-27 10-59-43](https://github.com/Nishitasa/sumof1toN/assets/173664538/27885fef-093b-4726-9186-97fc14500e47)
+
+To check next subtract the address with 16 so see the upcoming instruction.
+![Screenshot from 2024-06-27 11-01-50](https://github.com/Nishitasa/sumof1toN/assets/173664538/9a0119bd-49d6-4a14-b4f0-ed8ab3da4fa8)
+
