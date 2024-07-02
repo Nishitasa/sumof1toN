@@ -77,3 +77,253 @@ Then various address are available
 To check next subtract the address with 16 so see the upcoming instruction.
 ![Screenshot from 2024-06-27 11-01-50](https://github.com/Nishitasa/sumof1toN/assets/173664538/9a0119bd-49d6-4a14-b4f0-ed8ab3da4fa8)
 
+
+## TASK 4
+
+RISCV INSTRUCTION  TYPE
+
+RISC-V (pronounced “risk-five”) is a new instruction set architecture (ISA) that was originally
+designed to support computer architecture research and education, but which we now hope will
+also become a standard free and open architecture for industry implementations.
+
+RISC-V has been designed to support extensive customization and specialization. The base integer
+ISA can be extended with one or more optional instruction-set extensions, but the base integer
+instructions cannot be redefined. We divide RISC-V instruction-set extensions into standard and
+non-standard extensions.
+
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/04f7dc87-c2d2-4aad-9280-b2c5910846db)
+
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/2e4042ad-8ae7-4915-aa44-42cc7fe8f864)
+
+There are various formats :
+1.R-Format
+2.I-Format
+3.S-Format
+4.B-Format
+5.U-Format
+6.J-Format
+
+**R-Format**:
+
+This format instructions are frequently thought of as the most “simple” because they typically include operations that map closely to the capabilities that we generally associate with a computer at the lowest level. Arithmetic operations, such as adding, subtracting, and bit shifting all fall into this category.
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/2874f8e3-f0e6-4637-93af-2d2804b5ee84)
+
+**I-Format**:
+
+This format instructions eliminate the second register (rs2) and function (funct7) fields from the R format in favor of a large immediate value field. This format is specifically useful for supplying constants for arithmetic instructions, or loading data from a location in memory.
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/9bec60f6-5134-4e70-abc9-80d088bb1f5c)
+
+**S-Format**:
+
+Next up is S format instructions, which reintroduce our second register operand (rs2), but eliminate the destination register rd. An important attribute to notice is that we don’t simply change the bits used for rd to now represent rs2, we instead split our immediate value across two separate fields, allowing rs2 to be placed in the same location in S format instructions as it was in R format (and every other format that utilizes rs2). When we explore how instruction decoding works, the reasoning behind this strategy and the impact it has on complexity of the hardware design will become more apparent.
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/a7a0e366-890e-4fdb-896f-fd6af3b39e5a)
+
+**U-Format**:
+
+U, which we chose the lui instruction to demonstrate, but didn’t specify its actual purpose. lui refers to “load upper immediate”, and now that we have looked at a few instructions that use immediate values, we should have somewhat of an intuition for how it is used. The U format has the smallest number of fields out of all core instruction formats, only supporting opcode, rd, and a 20 bit immediate.
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/dc0ca1c9-72a3-46c6-a459-7a9f80f7403d)
+
+B-Format:
+
+The B-format in RISC-V is used for conditional branch instructions. The B-format is designed to encode branch instructions that compare two registers and conditionally branch to a target address. Here’s the structure of the B-format instruction:
+
+-----------------------------------------------------------
+| imm[12|10:5] | rs2 | rs1 | funct3 | imm[4:1|11] | opcode |
+-----------------------------------------------------------
+
+**J-Format**:
+
+In the RISC-V instruction set architecture (ISA), the "J" type instruction is used for jump operations. The format for a J-type instruction is designed to support jump operations with a 20-bit immediate value that is sign-extended to 32 bits and shifted left by one bit to form the jump target address
+
+|  imm[20]  |  imm[10:1]  |  imm[11]  |  imm[19:12]  |  rd  |  opcode  |
+
+Lets Decode the instruction set :
+
+**add r1,r2,r3*
+
+This is R-Type instruction.It is used for register-register operations.The field format is
+
+rd (5 bits): The destination register. In this case, r1 (also known as x1 in RISC-V) is represented by the binary encoding of 1 which is 00001.
+funct3 (3 bits): Specifies the type of operation within the R-type class. For the add instruction, funct3 is 000.
+rs1 (5 bits): The first source register. Here, r2 (also known as x2 in RISC-V) is represented by the binary encoding of 2 which is 00010.
+rs2 (5 bits): The second source register. Here, r3 (also known as x3 in RISC-V) is represented by the binary encoding of 3 which is 00011.
+
+32bit-0000000 00011 00010 000 00001 0110011
+
+**sub r3,r1,r2*
+
+ R-type instruction in the RISC-V ISA. R-type instructions are used for register-register operations. The R-type format includes the opcode, source registers, destination register, and function codes (funct3 and funct7).
+
+opcode: 0110011 (for integer register-register operations)
+funct3: 000 (for subtraction, as it falls under the ADD/SUB group)
+funct7: 0100000 (specific to subtraction)
+rd: 00011 (for register x3)
+rs1: 00001 (for register x1)
+rs2: 00010 (for register x2)
+
+32bit -0100000 00010 00001 000 00011 0110011
+
+**and r2,r1,r3*
+
+This R-Type instruction set.
+
+Opcode: 0110011 (for all R-type instructions)
+funct3: 111 (for AND)
+funct7: 0000000 (for AND)
+rs1: r1
+rs2: r3
+rd: r2
+
+32-bit-0000000 00011 00001 111 00010 0110011
+
+**OR r8, r2, r5*
+
+This is R-type instruction set.
+
+funct7: 0000000
+rs2: 00101
+rs1: 00010
+funct3: 110
+rd: 01000
+opcode: 0110011
+
+32-bit-0000000 00101 00010 110 01000 0110011
+
+**xor r8,r1,r4*
+
+This is R-type instruction set
+
+Opcode: 0110011
+rd (r8): 01000
+funct3: 100
+rs1 (r1): 00001
+rs2 (r4): 00100
+funct7: 0000000
+
+32-bit-0000000_00100_00001_100_01000_0110011
+
+**SLT r10,r2,r4*
+
+This is R-type instruction set
+For the slt (set less than) instruction:
+
+opcode: 0110011
+funct3: 010
+funct7: 0000000
+Register Mappings:
+r10: destination register (rd)
+r2: first source register (rs1)
+r4: second source register (rs2)
+
+For the slt r10, r2, r4 instruction, we can break it down and encode it as follows:
+
+opcode: 0110011
+rd: 01010 (binary for register 10)
+funct3: 010
+rs1: 00010 (binary for register 2)
+rs2: 00100 (binary for register 4)
+funct7: 0000000
+
+32-bit pattern-0000000 00100 00010 010 01010 0110011
+
+
+**ADDI r12,r3,5*
+
+The instruction ADDI r12, r3, 5 is an I-type instruction in the RISC-V ISA. The I-type format is used for immediate arithmetic instructions, load instructions, and some other immediate-based instructions.
+
+Opcode: The opcode for ADDI is 0010011.
+rd: The destination register r12 is 01100 in binary.
+funct3: The function code for ADDI is 000.
+rs1: The source register r3 is 00011 in binary.
+Immediate: The immediate value 5 is 000000000101 in binary (12 bits)
+
+32-bit pattern-0000000001010001100000110010011
+
+**SW r3,r1,4*
+
+The SW (Store Word) instruction in the RISC-V instruction set is an example of an S-type (Store) instruction format. The S-type instruction format is used for store operations, which store the contents of a register into memory.
+
+For the SW r3, r1, 4 instruction:
+
+Opcode: 0100011 (SW)
+rs2: r3 (register 3)
+rs1: r1 (register 1)
+funct3: 010 (SW function code)
+Immediate: 4 (split into imm[11:5] and imm[4:0])
+Let's break this down:
+
+Immediate value 4 in binary: 000000000100
+
+imm[11:5] = 0000000
+imm[4:0] = 00100
+rs2 (r3) in binary: 00011
+rs1 (r1) in binary: 00001
+funct3 for SW: 010
+Opcode for SW: 0100011
+
+32-bit-pattern-0000000 00011 00001 010 00100 0100011
+
+**SRL r16,r11,r2*
+
+This is a R-Type instruction set.
+
+funct7: 0000000
+rs2: 00010 (r2)
+rs1: 01011 (r11)
+funct3: 101 (SRL)
+rd: 10000 (r16)
+opcode: 0110011 (SRL)
+
+32-bit -0000000 00010 01011 101 10000 0110011
+
+**BNE r0,r1,20*
+
+This is a B-Type instruction set
+BNE r0, r1, 20 in RISC-V is a branch instruction used for conditional branching. 
+
+Opcode: 1100011 (BNE)
+rs1: 00000 (register r0)
+rs2: 00001 (register r1)
+Immediate: 20 (decimal) or 0x14 (hexadecimal), which in binary is 0000000000100 (12 bits, considering sign extension).
+
+32-bit-| 000000000010 | 00000 | 00001 | 1100011 |
+
+**BEQ r0,r0,15*
+
+This is a B-Type instruction set
+
+The instruction BEQ r0, r0, 15 in RISC-V assembly corresponds to a branch equal (BEQ) operation. In RISC-V, branch instructions fall under the B-type format.
+
+Opcode (7 bits): 1100011 (BEQ opcode)
+rs1 (5 bits): 00000 (register r0)
+rs2 (5 bits): 00000 (register r0)
+Immediate (12 bits): 15 in binary is 000000000111
+
+32-bit-000000000111  00000  00000   000
+
+**LW r13,r11,2*
+
+This is a I-Type instruction set
+
+The instruction LW r13, r11, 2 in RISC-V assembly language is used to load a word from memory into register r13, with an offset of 2 bytes from the address stored in register r11. In RISC-V, this operation corresponds to the I-type (Immediate-type) format for load instructions. 
+
+Opcode (7 bits): 0000011 (LW opcode)
+rd (5 bits): 01101 (register r13)
+rs1 (5 bits): 01011 (register r11)
+Immediate (12 bits): 000000000010 (binary for 2
+
+32-bit-000000000010  01011   010       01101  0000011
+
+**SLL r15,r11,2*
+
+This is a R-type instruction set.
+The instruction SLL r15, r11, 2 in RISC-V assembly language performs a left logical shift on the value stored in register r11 by 2 bits and stores the result in register r15. 
+
+Opcode (7 bits): 0110011 (SLL opcode)
+rd (5 bits): 01111 (register r15)
+funct3 (3 bits): 001 (for SLL)
+rs1 (5 bits): 01011 (register r11)
+rs2 (5 bits): 00000 (register r0, which signifies the shift amount)
+funct7 (7 bits): 0000000 (for SLL)
+
+32-bit-0000000   00000  01011   001      01111  0110011
