@@ -327,3 +327,87 @@ rs2 (5 bits): 00000 (register r0, which signifies the shift amount)
 funct7 (7 bits): 0000000 (for SLL)
 
 32-bit-0000000   00000  01011   001      01111  0110011
+
+## TASK 5
+
+In this we need to find the output waveforms for the instructions which we learnt in Task 4.
+
+**Steps to perform*
+
+1.Firstly give the command :
+                            
+                            sudo apt-get update
+                            sudo apt-get install iverilog gtkwave
+
+2. Setup Your Project Directory
+Create a directory for your project and place your Verilog files and testbench there.
+
+                          mkdir rv
+                          cd rv
+
+3.Then from the reference copy the code of verilog and testbench and save them.
+
+4.Give the command line 
+
+                        touch rv_riscv32.v
+                        touch rv_riscvtb.v
+
+5.Compile these files using Icarus Verilog:
+
+                                    iverilog -o rv_riscv32 rv_riscv32.v rv_riscvtb.v
+                                    ./rv_riscv32
+
+6.View the Waveform
+Open the waveform file using GTKWave:
+
+                                  gtkwave iiitb_rv32i.vcd
+                                  
+![Ubuntu commands and installation of gtkwave and iverilog](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/73a60cb0-b6ba-4673-86a6-8c0c972c0a89)
+
+Then it will open GTKWAVE
+
+![Gtkwave](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/8d494094-1fe3-4aa5-9487-3931f4563002)
+![gtkwave commands](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/9af72765-903a-4b2f-9578-af379afd2373)
+
+![EX_mem open and waveforms with clock](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/c7814b93-da2b-42b3-a6a7-0b535af42288)
+
+Select the instructions from EX_MEM_IR[31:0]
+
+**INSTRUCTION ADD r1,r2,r3*
+![ADD r1, r2, r3](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/025a0d89-3672-46f3-8ca5-3b2999deceb0)
+
+**INSTRUCTION SUB r3, r1, r2*
+![SUB r3, r1, r2](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/54eb94d0-5277-4600-ad46-1478670e023e)
+
+**Instruction AND r2, r1, r3*
+![AND r2, r1, r3](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/e98dd319-0e0b-4b8d-9e25-6b49353d9052)
+
+**Instruction OR r8, r2, r5*
+![OR r8, r2, r5](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/4c68d4ae-4abe-4caa-a9ce-c7ca6238b13e)
+
+**Instruction XOR r8, r1, r4*
+![XOR r8, r1, r4](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/625c73b4-adfe-4670-8101-a6becf03fcf7)
+
+**Instruction SLT r10, r2, r4*
+![SLT r10, r2, r4](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/31a13ead-e52f-4bf1-9d4d-d3b6f945602b)
+
+**Instruction ADDI r12, r3, 5*
+![ADDI r12, r3, 5](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/6d010385-20af-44cd-993b-0726fe991463)
+
+**Instruction SW r3, r1, 4*
+![SW r3, r1, 4](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/11336ba0-d70d-46a1-b260-4b1edc7b7822)
+
+**Instruction SRL r16, r11, r2*
+![SRL r16, r11, r2](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/21c13d83-9d1c-422c-abeb-60bf8e1aae3d)
+
+**Instruction BNE r0, r1, 20*
+![BNE r0, r1, 20](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/bf5716ec-08c7-4805-b755-eb7b789bc826)
+
+**Instruction SLL r15, r11, r2*
+![SLL r15, r11, r2](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/2e1aaa3c-38ac-485d-8bab-14bbfc7aec8e)
+
+
+
+
+
+
