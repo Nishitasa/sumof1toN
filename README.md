@@ -49,7 +49,7 @@ Converting the C program to RISCV and complied to recieve the output
 
 <details>
 
-<summary><h3> TASK 3:We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast</summary>
+<summary><h3> Task 3:We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast</summary>
 
 . 
 
@@ -90,10 +90,11 @@ To check next subtract the address with 16 so see the upcoming instruction.
 ![Screenshot from 2024-06-27 11-01-50](https://github.com/Nishitasa/sumof1toN/assets/173664538/9a0119bd-49d6-4a14-b4f0-ed8ab3da4fa8)
 
 </details>
+<details>
 
-<details><summary><h3>TASK 4 :RISCV Instruction type/summary>
+<summary><h3>Task 4: </h3> RISC-V instruction type (R, I, S, B, U, J)  </summary>
 
-
+ 
 RISC-V (pronounced “risk-five”) is a new instruction set architecture (ISA) that was originally
 designed to support computer architecture research and education, but which we now hope will
 also become a standard free and open architecture for industry implementations.
@@ -344,7 +345,7 @@ funct7 (7 bits): 0000000 (for SLL)
 
 <details>
 
-<summary><h3>TASK 5:GTK waveform </summary>
+<summary><h3>Task 5:GTK waveform </summary>
 
 In this we need to find the output waveforms for the instructions which we learnt in Task 4.
 
@@ -426,10 +427,119 @@ Select the instructions from EX_MEM_IR[31:0]
 
 <details>
 
-<summary><h3>TASK6:Creating a smart Elevator Controller</summary>
+<summary><h3>Task6:Creating a smart Elevator Controller</summary>
 
 The task is to implement Ascent control Engineer:Creating a smart Elevator controller using RISC-V board
 
+## Overview:
 
+An elevator controller is responsible for managing the operation of an elevator, including tasks such as moving the elevator car to the desired floor, opening and closing the doors, and handling user requests efficiently. Creating a smart elevator controller using a RISC-V board involves designing both the hardware and software components to ensure reliable and efficient operation.
+
+## Components Required:
+
+1.RISC-V Board
+2.Basic Sensors
+3.LED display 
+4.Motors 
+5.Push Buttons and Buzzer
+6.Power Supply(12V or 24V)
+7.Bread Board
+8.Jumper Wires
+
+## Circuit connections:
+
+1.RISC-V Board Setup:
+
+Connect the RISC-V board to the breadboard using jumper wires.
+Ensure that the board is powered using an appropriate power supply.
+
+2.Sensor Connections:
+
+Position Sensors (Limit Switches): Connect one side to the ground (GND) and the other side to digital input pins on the RISC-V board.
+Door Sensors (Magnetic Reed Switches): Connect similarly to the position sensors
+
+3.Display (7-segment LED or LCD):
+Connect the display pins to the appropriate GPIO (General Purpose Input/Output) pins on the RISC-V board.
+
+4.Buzzer or Alarm:
+Connect the buzzer to a digital output pin on the RISC-V board.
+
+![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/112745d0-e33a-4cb0-8c7d-a95eb0cb1033)
+
+## Program Code:
+
+               #include <stdio.h>
+
+               #include <stdlib.h>
+
+               #define MAX_FLOORS 10
+
+               int current_floor = 0;
+
+              void move_elevator(int target_floor) {
+              
+                 if (target_floor < 0 || target_floor >= MAX_FLOORS) {
+                 
+                   printf("Invalid floor number. Please enter a floor between 0 and %d.\n", MAX_FLOORS - 1);
+                   
+                   return;
+    }
+
+     while (current_floor != target_floor) {
+     
+        if (current_floor < target_floor) {
+        
+            current_floor++;
+            
+            printf("Moving up to floor %d...\n", current_floor);
+            
+        } else if (current_floor > target_floor) {
+
+            current_floor--;
+            
+            printf("Moving down to floor %d...\n", current_floor);
+        }
+    }
+
+    printf("Elevator has arrived at floor %d.\n", current_floor);
+    }
+
+     int main() {
+     
+     int target_floor;
+     
+     char command;
+
+      while (1) {
+      
+        printf("Current floor: %d\n", current_floor);
+        
+        printf("Enter 'c' to call the elevator to a floor or 'q' to quit: ");
+        
+        scanf(" %c", &command);
+
+        if (command == 'q') {
+        
+            printf("Exiting program.\n");
+            
+            break;
+            
+        } else if (command == 'c') {
+        
+            printf("Enter the target floor: ");
+            
+            scanf("%d", &target_floor);
+            
+            move_elevator(target_floor);
+            
+        } else {
+        
+            printf("Invalid command. Please enter 'c' or 'q'.\n");
+        }
+        
+    }
+
+    return 0;
+}
 
 
