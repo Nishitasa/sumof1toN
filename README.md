@@ -23,7 +23,9 @@ Task 1 completed
 
 <details>
 
-<summary><h3>Task 2: </h3>Task 2:</h3>My project title is Creating a Smart Elevator Controller</summary>
+<summary><h3>Task 2:Smart Elevator controller</summary>
+ 
+ My project title is Creating a Smart Elevator Controller</summary>
 ![image](https://github.com/Nishitasa/sumof1toN/assets/173664538/c7da7880-ef91-4560-86f9-2bdda08b4021)
 
 A smart elevator, refers to an elevator system that incorporates advanced technologies to enhance efficiency, safety, and user experience. These elevators utilize various sensors, algorithms, and connectivity features to improve their performance and functionality. These elevators are particularly beneficial in high-traffic buildings where efficient vertical transportation is crucial. Key features of smart elevators include:
@@ -89,7 +91,8 @@ To check next subtract the address with 16 so see the upcoming instruction.
 
 </details>
 
-<details><summary><h3>TASK 4 :RISCV INSTRUCTION  TYPE</summary>
+<details><summary><h3>TASK 4 :RISCV Instruction type/summary>
+
 
 RISC-V (pronounced “risk-five”) is a new instruction set architecture (ISA) that was originally
 designed to support computer architecture research and education, but which we now hope will
@@ -341,7 +344,7 @@ funct7 (7 bits): 0000000 (for SLL)
 
 <details>
 
-<summary><h3>TASK 5:GTK WAVEFORM </summary>
+<summary><h3>TASK 5:GTK waveform </summary>
 
 In this we need to find the output waveforms for the instructions which we learnt in Task 4.
 
@@ -419,7 +422,13 @@ Select the instructions from EX_MEM_IR[31:0]
 **Instruction SLL r15, r11, r2*
 ![SLL r15, r11, r2](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/2e1aaa3c-38ac-485d-8bab-14bbfc7aec8e)
 
+</details>
 
+<details>
+
+<summary><h3>TASK6:Creating a smart Elevator Controller</summary>
+
+The task is to implement Ascent control Engineer:Creating a smart Elevator controller using RISC-V board
 
 
 
