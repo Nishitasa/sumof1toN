@@ -1,5 +1,9 @@
 # Vsdsquadron-mini-Internship
 
+<details>
+
+<summary><h3>Task 1: </h3> Using a RISC-V simulator, write a C program to count the sum of all numbers from 1 to n</summary>
+
 ## Task 1 
 Write a c program to count the sum of 1 to N
 ![Virtual box installation](https://github.com/Nishitasa/sumof1toN/assets/173664538/982957fc-32b6-4fad-bcc5-5125da4cc46e)
@@ -15,8 +19,11 @@ RISCV64 output
 
 Task 1 completed
 
-## TASK 2
-**My project title is Creating a Smart Elevator Controller**
+</details>
+
+<details>
+
+<summary><h3>Task 2: </h3>Task 2:</h3>My project title is Creating a Smart Elevator Controller</summary>
 ![image](https://github.com/Nishitasa/sumof1toN/assets/173664538/c7da7880-ef91-4560-86f9-2bdda08b4021)
 
 A smart elevator, refers to an elevator system that incorporates advanced technologies to enhance efficiency, safety, and user experience. These elevators utilize various sensors, algorithms, and connectivity features to improve their performance and functionality. These elevators are particularly beneficial in high-traffic buildings where efficient vertical transportation is crucial. Key features of smart elevators include:
@@ -36,10 +43,13 @@ gcc file name
 The output is displayed 
 ![The project which is applied to riscv](https://github.com/Nishitasa/sumof1toN/assets/173664538/1f33ae24-b198-4a7c-9a60-381fdf1fe6dd)
 Converting the C program to RISCV and complied to recieve the output
+</details>
 
-## TASK 3
+<details>
 
-We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast. 
+<summary><h3> TASK 3:We have to observe the SPIKE Simulation and observe  with -O1 and -Ofast</summary>
+
+. 
 
 **With -O1 command**:
 
@@ -77,10 +87,9 @@ Then various address are available
 To check next subtract the address with 16 so see the upcoming instruction.
 ![Screenshot from 2024-06-27 11-01-50](https://github.com/Nishitasa/sumof1toN/assets/173664538/9a0119bd-49d6-4a14-b4f0-ed8ab3da4fa8)
 
+</details>
 
-## TASK 4
-
-RISCV INSTRUCTION  TYPE
+<details><summary><h3>TASK 4 :RISCV INSTRUCTION  TYPE</summary>
 
 RISC-V (pronounced “risk-five”) is a new instruction set architecture (ISA) that was originally
 designed to support computer architecture research and education, but which we now hope will
@@ -328,7 +337,11 @@ funct7 (7 bits): 0000000 (for SLL)
 
 32-bit-0000000   00000  01011   001      01111  0110011
 
-## TASK 5
+</details>
+
+<details>
+
+<summary><h3>TASK 5:GTK WAVEFORM </summary>
 
 In this we need to find the output waveforms for the instructions which we learnt in Task 4.
 
