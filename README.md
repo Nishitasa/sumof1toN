@@ -642,9 +642,7 @@ int main(void) {
 
 <summary><h3>PROJECT</summary>
  
- PIN CONNECTION:
- ![Connection](https://github.com/user-attachments/assets/434aa238-0f5b-47bc-a1e1-fbda2db087d8)
+ 
 
 
 APPLICATION VIDEO:
-https://drive.google.com/file/d/1XAAdLgGXLVsCv0-5JLAiacO0UUCuQit6/view?usp=drive_link
