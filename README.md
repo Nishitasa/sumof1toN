@@ -1,4 +1,4 @@
-![WhatsApp Image 2024-07-23 at 20 03 06_f837d7cb](https://github.com/user-attachments/assets/b0443128-3ba1-4bf2-9739-f054674d5768)# Vsdsquadron-mini-Internship
+# Vsdsquadron-mini-Internship
 
 <details>
 
