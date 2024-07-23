@@ -1,4 +1,4 @@
-# Vsdsquadron-mini-Internship
+![WhatsApp Image 2024-07-23 at 20 03 06_f837d7cb](https://github.com/user-attachments/assets/b0443128-3ba1-4bf2-9739-f054674d5768)# Vsdsquadron-mini-Internship
 
 <details>
 
@@ -427,9 +427,9 @@ Select the instructions from EX_MEM_IR[31:0]
 
 <details>
 
-<summary><h3>Task6:Creating a smart Elevator Controller</summary>
+<summary><h3>Task6:PROJECT</summary>
 
-The task is to implement Ascent control Engineer:Creating a smart Elevator controller using RISC-V board
+The task is to implement Ascent control Engineer:Creating a DOOR LOCK SYSTEM using RISC-V board
 
 ## Overview:
 
@@ -439,11 +439,10 @@ An elevator controller is responsible for managing the operation of an elevator,
 
 1.RISC-V Board
 2.LED display 
-3.Push Buttons 
-4.Power Supply(12V or 24V)
-5.Bread Board
-6.Jumper Wires
-7.Keypad
+3.Power Supply(12V or 24V)
+4.Bread Board
+5.Jumper Wires
+6.Keypad
 
 ## Circuit connections:
 
@@ -465,184 +464,183 @@ Connect the display pins to the appropriate GPIO (General Purpose Input/Output) 
                #include <debug.h>
 #include <ch32v00x.h>
 #include <ch32v00x_gpio.h>
+#include <ch32v00x_i2c.h>
+#include <string.h>
 
-// Define pin connections for the keypad
-#define KEYPAD_ROW1 GPIO_Pin_4
-#define KEYPAD_ROW2 GPIO_Pin_2
-#define KEYPAD_ROW3 GPIO_Pin_6
-#define KEYPAD_ROW4 GPIO_Pin_5
-#define KEYPAD_COL1 GPIO_Pin_7
-#define KEYPAD_COL2 GPIO_Pin_3
-#define KEYPAD_COL3 GPIO_Pin_0
-#define KEYPAD_COL4 GPIO_Pin_1
+// Keypad configuration
+#define ROWS 4
+#define COLS 4
+const uint16_t rowPins[ROWS] = {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3}; // Adjust according to your setup
+const uint16_t colPins[COLS] = {GPIO_Pin_4, GPIO_Pin_5, GPIO_Pin_6, GPIO_Pin_7}; // Adjust according to your setup
 
-// Define pin connections for the push buttons
-#define PUSH_BUTTON1 GPIO_Pin_0
-#define PUSH_BUTTON2 GPIO_Pin_1
-#define PUSH_BUTTON3 GPIO_Pin_1
+// Keypad matrix
+char keypadMatrix[ROWS][COLS] = {
+    {'1', '2', '3', 'A'},
+    {'4', '5', '6', 'B'},
+    {'7', '8', '9', 'C'},
+    {'*', '0', '#', 'D'}
+};
 
-// I2C LCD Address
-#define LCD_ADDRESS 0x27
+// LCD configuration
+#define LCD_ADDR 0x27 // Adjust the I2C address for your LCD
 
-void delay(uint32_t count) {
-    while (count--) {
-        __asm("nop");
+// Password configuration
+const char *correctPassword = "1234";
+char inputPassword[10];
+int inputIndex = 0;
+
+// Function prototypes
+void initGPIO(void);
+void initI2C(void);
+void lcdWriteCommand(uint8_t cmd);
+void lcdWriteData(uint8_t data);
+void lcdInit(void);
+void lcdPrint(const char *str);
+char readKeypad(void);
+void checkPassword(void);
+void Delay(uint32_t time);
+
+int main(void) {
+    // Initialize system
+    SystemInit();
+    initGPIO();
+    initI2C();
+    lcdInit();
+
+    lcdPrint("Enter Password:");
+    
+    while (1) {
+        char key = readKeypad();
+        if (key) {
+            if (key == '#') { // Enter key
+                checkPassword();
+                inputIndex = 0; // Clear input for next attempt
+            } else if (key == '*') { // Clear key
+                inputIndex = 0;
+                lcdPrint("Enter Password:");
+            } else {
+                if (inputIndex < sizeof(inputPassword) - 1) {
+                    inputPassword[inputIndex++] = key;
+                    inputPassword[inputIndex] = '\0';
+                    lcdPrint(inputPassword);
+                }
+            }
+        }
+        Delay(10); // Debounce delay
     }
 }
 
-void GPIO_Config(void) {
+void initGPIO(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
-
-    // Enable GPIO clocks
+    
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
 
-    // Configure keypad row pins as output
-    GPIO_InitStructure.GPIO_Pin = KEYPAD_ROW1 | KEYPAD_ROW2 | KEYPAD_ROW3 | KEYPAD_ROW4;
+    // Initialize rows as output
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 
-    // Configure keypad column pins as input with pull-up resistors
-    GPIO_InitStructure.GPIO_Pin = KEYPAD_COL1 | KEYPAD_COL2 | KEYPAD_COL3 | KEYPAD_COL4;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
-
-    // Configure push button pins as input with pull-up resistors
-    GPIO_InitStructure.GPIO_Pin = PUSH_BUTTON1 | PUSH_BUTTON2 | PUSH_BUTTON3;
+    // Initialize columns as input
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
-char readKeypad(void) {
-    // Scan keypad rows
-    for (int row = 0; row < 4; row++) {
-        GPIO_ResetBits(GPIOA, KEYPAD_ROW1 | KEYPAD_ROW2 | KEYPAD_ROW3 | KEYPAD_ROW4);
-        GPIO_SetBits(GPIOA, (KEYPAD_ROW1 << row));
-        delay(10000);
-        
-        if (GPIO_ReadInputDataBit(GPIOA, KEYPAD_COL1) == Bit_RESET) return '1' + row * 4;
-        if (GPIO_ReadInputDataBit(GPIOA, KEYPAD_COL2) == Bit_RESET) return '2' + row * 4;
-        if (GPIO_ReadInputDataBit(GPIOA, KEYPAD_COL3) == Bit_RESET) return '3' + row * 4;
-        if (GPIO_ReadInputDataBit(GPIOA, KEYPAD_COL4) == Bit_RESET) return '4' + row * 4;
-    }
-    return '\0';
-}
-
-void I2C_Config(void) {
+void initI2C(void) {
     I2C_InitTypeDef I2C_InitStructure;
 
-    // Enable I2C clock
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
-
-    // I2C configuration
+    
+    I2C_InitStructure.I2C_ClockSpeed = 100000; // Adjust as necessary
     I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
     I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
     I2C_InitStructure.I2C_OwnAddress1 = 0x00;
-    I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-    I2C_InitStructure.I2C_ClockSpeed = 100000;
     I2C_Init(I2C1, &I2C_InitStructure);
-
-    // Enable I2C
     I2C_Cmd(I2C1, ENABLE);
 }
 
-void I2C_Write(uint8_t address, uint8_t data) {
-    // Send I2C start signal
+void lcdWriteCommand(uint8_t cmd) {
     I2C_GenerateSTART(I2C1, ENABLE);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
-
-    // Send I2C address
-    I2C_Send7bitAddress(I2C1, address, I2C_Direction_Transmitter);
+    I2C_Send7bitAddress(I2C1, LCD_ADDR, I2C_Direction_Transmitter);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-
-    // Send data
-    I2C_SendData(I2C1, data);
-    while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTING));
-
-    // Send I2C stop signal
+    I2C_SendData(I2C1, cmd);
+    while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
     I2C_GenerateSTOP(I2C1, ENABLE);
 }
 
-void LCD_SendCommand(uint8_t cmd) {
-    // Send command to the LCD
-    I2C_Write(LCD_ADDRESS, cmd);
-    delay(5000);
+void lcdWriteData(uint8_t data) {
+    I2C_GenerateSTART(I2C1, ENABLE);
+    while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
+    I2C_Send7bitAddress(I2C1, LCD_ADDR, I2C_Direction_Transmitter);
+    while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+    I2C_SendData(I2C1, data);
+    while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+    I2C_GenerateSTOP(I2C1, ENABLE);
 }
 
-void LCD_Init(void) {
-    // Initialize the LCD
-    delay(50000);  // Wait for LCD to power up
+void lcdInit(void) {
+    Delay(50); // Wait for LCD to power up
 
-    LCD_SendCommand(0x30);  // Function set
-    delay(5000);
-    LCD_SendCommand(0x30);  // Function set
-    delay(5000);
-    LCD_SendCommand(0x30);  // Function set
-    delay(5000);
-    LCD_SendCommand(0x20);  // Set to 4-bit mode
-    delay(5000);
-
-    // Configure the LCD
-    LCD_SendCommand(0x28);  // Function set: 4-bit, 2 line, 5x8 dots
-    LCD_SendCommand(0x08);  // Display off
-    LCD_SendCommand(0x01);  // Clear display
-    delay(5000);
-    LCD_SendCommand(0x06);  // Entry mode set: increment automatically, no display shift
-    LCD_SendCommand(0x0C);  // Display on, cursor off, blink off
+    // Initialize LCD in 4-bit mode
+    lcdWriteCommand(0x33); // Function set
+    lcdWriteCommand(0x32); // Function set
+    lcdWriteCommand(0x28); // 4-bit mode, 2 lines, 5x8 dots
+    lcdWriteCommand(0x0C); // Display on, cursor off
+    lcdWriteCommand(0x06); // Entry mode set
+    lcdWriteCommand(0x01); // Clear display
+    Delay(2); // Wait for clear command to complete
 }
 
-void LCD_Print(char* message) {
-    while (*message) {
-        I2C_Write(LCD_ADDRESS, *message++);
-        delay(5000);
+void lcdPrint(const char *str) {
+    while (*str) {
+        lcdWriteData(*str++);
     }
 }
 
-int main(void) {
-    // System initialization
-    SystemInit();
-    
-    // GPIO configuration
-    GPIO_Config();
-
-    // I2C configuration
-    I2C_Config();
-
-    // LCD initialization
-    LCD_Init();
-
-    while (1) {
-        char key = readKeypad();
-        if (key) {
-            // Print the key pressed to the LCD
-            char message[2] = { key, '\0' };
-            LCD_Print(message);
+char readKeypad(void) {
+    for (int row = 0; row < ROWS; row++) {
+        // Set all rows to high except the current one
+        GPIO_ResetBits(GPIOA, rowPins[row]); // Set current row low
+        for (int col = 0; col < COLS; col++) {
+            if (GPIO_ReadInputDataBit(GPIOA, colPins[col]) == RESET) { // If key is pressed
+                while (GPIO_ReadInputDataBit(GPIOA, colPins[col]) == RESET); // Wait for key release
+                GPIO_SetBits(GPIOA, rowPins[row]); // Set row back to high
+                return keypadMatrix[row][col];
+            }
         }
-
-        if (GPIO_ReadInputDataBit(GPIOA, PUSH_BUTTON1) == Bit_RESET) {
-            LCD_Print("Button 1 pressed");
-        }
-
-        if (GPIO_ReadInputDataBit(GPIOA, PUSH_BUTTON2) == Bit_RESET) {
-            LCD_Print("Current");
-        }
-
-        if (GPIO_ReadInputDataBit(GPIOA, PUSH_BUTTON3) == Bit_RESET) {
-            LCD_Print("Destination");
-        }
-
-        delay(100000);
+        GPIO_SetBits(GPIOA, rowPins[row]); // Set row back to high
     }
+    return '\0'; // No key pressed
 }
 
+void checkPassword(void) {
+    if (strcmp(inputPassword, correctPassword) == 0) {
+        lcdPrint("Access Granted");
+    } else {
+        lcdPrint("Access Denied");
+    }
+    Delay(2000); // Show result for 2 seconds
+    lcdPrint("Enter Password:");
+}
+
+void Delay(uint32_t time) {
+    // Simple delay loop
+    while (time--) {
+        for (volatile uint32_t i = 0; i < 1000; i++);
+    }
+}
 </details>
 
 <details>
 
 <summary><h3>PROJECT</summary>
- 
- 
 
+ PIN connection
+ ![pin Connection](https://github.com/user-attachments/assets/39d06f72-4953-45bd-9525-f166aab5cbc0)
 
 APPLICATION VIDEO:
+
+https://drive.google.com/file/d/1edcnWnK5Y7pqWLp8H07GEQTBxb7qI-YY/view?usp=sharing
