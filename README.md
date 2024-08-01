@@ -462,45 +462,45 @@ Connect the display pins to the appropriate GPIO (General Purpose Input/Output) 
 ## Program Code:
 
                #include <debug.h>
-#include <ch32v00x.h>
-#include <ch32v00x_gpio.h>
-#include <ch32v00x_i2c.h>
-#include <string.h>
+               #include <ch32v00x.h>
+               #include <ch32v00x_gpio.h>
+               #include <ch32v00x_i2c.h>
+               #include <string.h>
 
-// Keypad configuration
-#define ROWS 4
-#define COLS 4
-const uint16_t rowPins[ROWS] = {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3}; // Adjust according to your setup
-const uint16_t colPins[COLS] = {GPIO_Pin_4, GPIO_Pin_5, GPIO_Pin_6, GPIO_Pin_7}; // Adjust according to your setup
+            // Keypad configuration
+             #define ROWS 4
+             #define COLS 4
+             const uint16_t rowPins[ROWS] = {GPIO_Pin_0, GPIO_Pin_1, GPIO_Pin_2, GPIO_Pin_3}; // Adjust according to your setup
+             const uint16_t colPins[COLS] = {GPIO_Pin_4, GPIO_Pin_5, GPIO_Pin_6, GPIO_Pin_7}; // Adjust according to your setup
 
-// Keypad matrix
-char keypadMatrix[ROWS][COLS] = {
+         // Keypad matrix
+         char keypadMatrix[ROWS][COLS] = {
     {'1', '2', '3', 'A'},
     {'4', '5', '6', 'B'},
     {'7', '8', '9', 'C'},
     {'*', '0', '#', 'D'}
-};
+    };
 
-// LCD configuration
-#define LCD_ADDR 0x27 // Adjust the I2C address for your LCD
+     // LCD configuration
+    #define LCD_ADDR 0x27 // Adjust the I2C address for your LCD
 
-// Password configuration
-const char *correctPassword = "1234";
-char inputPassword[10];
-int inputIndex = 0;
+      // Password configuration
+     const char *correctPassword = "1234";
+      char inputPassword[10];
+      int inputIndex = 0;
 
-// Function prototypes
-void initGPIO(void);
-void initI2C(void);
-void lcdWriteCommand(uint8_t cmd);
-void lcdWriteData(uint8_t data);
-void lcdInit(void);
-void lcdPrint(const char *str);
-char readKeypad(void);
-void checkPassword(void);
-void Delay(uint32_t time);
+      // Function prototypes
+      void initGPIO(void);
+     void initI2C(void);
+      void lcdWriteCommand(uint8_t cmd);
+     void lcdWriteData(uint8_t data);
+       void lcdInit(void);
+    void lcdPrint(const char *str);
+     char readKeypad(void);
+    void checkPassword(void);
+    void Delay(uint32_t time);
 
-int main(void) {
+     int main(void) {
     // Initialize system
     SystemInit();
     initGPIO();
@@ -530,7 +530,7 @@ int main(void) {
     }
 }
 
-void initGPIO(void) {
+       void initGPIO(void) {
     GPIO_InitTypeDef GPIO_InitStructure;
     
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
@@ -546,8 +546,8 @@ void initGPIO(void) {
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
-
-void initI2C(void) {
+  
+     void initI2C(void) {
     I2C_InitTypeDef I2C_InitStructure;
 
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
@@ -559,9 +559,9 @@ void initI2C(void) {
     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
     I2C_Init(I2C1, &I2C_InitStructure);
     I2C_Cmd(I2C1, ENABLE);
-}
+    }
 
-void lcdWriteCommand(uint8_t cmd) {
+    void lcdWriteCommand(uint8_t cmd) {
     I2C_GenerateSTART(I2C1, ENABLE);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
     I2C_Send7bitAddress(I2C1, LCD_ADDR, I2C_Direction_Transmitter);
@@ -569,9 +569,9 @@ void lcdWriteCommand(uint8_t cmd) {
     I2C_SendData(I2C1, cmd);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
     I2C_GenerateSTOP(I2C1, ENABLE);
-}
+     }
 
-void lcdWriteData(uint8_t data) {
+    void lcdWriteData(uint8_t data) {
     I2C_GenerateSTART(I2C1, ENABLE);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_MODE_SELECT));
     I2C_Send7bitAddress(I2C1, LCD_ADDR, I2C_Direction_Transmitter);
@@ -579,9 +579,9 @@ void lcdWriteData(uint8_t data) {
     I2C_SendData(I2C1, data);
     while (!I2C_CheckEvent(I2C1, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
     I2C_GenerateSTOP(I2C1, ENABLE);
-}
+     }
 
-void lcdInit(void) {
+    void lcdInit(void) {
     Delay(50); // Wait for LCD to power up
 
     // Initialize LCD in 4-bit mode
@@ -592,15 +592,15 @@ void lcdInit(void) {
     lcdWriteCommand(0x06); // Entry mode set
     lcdWriteCommand(0x01); // Clear display
     Delay(2); // Wait for clear command to complete
-}
+     }
 
-void lcdPrint(const char *str) {
+    void lcdPrint(const char *str) {
     while (*str) {
         lcdWriteData(*str++);
     }
-}
+    }
 
-char readKeypad(void) {
+    char readKeypad(void) {
     for (int row = 0; row < ROWS; row++) {
         // Set all rows to high except the current one
         GPIO_ResetBits(GPIOA, rowPins[row]); // Set current row low
@@ -614,9 +614,9 @@ char readKeypad(void) {
         GPIO_SetBits(GPIOA, rowPins[row]); // Set row back to high
     }
     return '\0'; // No key pressed
-}
+    }
 
-void checkPassword(void) {
+    void checkPassword(void) {
     if (strcmp(inputPassword, correctPassword) == 0) {
         lcdPrint("Access Granted");
     } else {
@@ -624,14 +624,14 @@ void checkPassword(void) {
     }
     Delay(2000); // Show result for 2 seconds
     lcdPrint("Enter Password:");
-}
+    }
 
-void Delay(uint32_t time) {
+    void Delay(uint32_t time) {
     // Simple delay loop
     while (time--) {
         for (volatile uint32_t i = 0; i < 1000; i++);
     }
-}
+     }
 </details>
 
 <details>
