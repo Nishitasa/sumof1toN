@@ -460,17 +460,17 @@ Pin diagram:
 |              RISC-V Board            |
 |                                      |
 |   +----------------------------+     |
-|   |  GPIO1 (Keypad Row 1)      |     |
-|   |  GPIO2 (Keypad Row 2)      |     |
-|   |  GPIO3 (Keypad Row 3)      |     |
-|   |  GPIO4 (Keypad Row 4)      |     |
-|   |  GPIO5 (Keypad Column 1)   |     |
-|   |  GPIO6 (Keypad Column 2)   |     |
-|   |  GPIO7 (Keypad Column 3)   |     |
-|   |  GPIO8 (Keypad Column 4)   |     |
-|   |  GPIO9 (LCD SDA)           |     |
-|   |  GPIO10 (LCD SCL)          |     |
-|   |  GPIO11 (Servo PWM)        |     |
+|   |  PCO1 (Keypad Row 1)      |     |
+|   |  PC2 (Keypad Row 2)      |     |
+|   |  PC3 (Keypad Row 3)      |     |
+|   |  PC4 (Keypad Row 4)      |     |
+|   |  PC5 (Keypad Column 1)   |     |
+|   |  PC6 (Keypad Column 2)   |     |
+|   |  PC7 (Keypad Column 3)   |     |
+|   |  PD1 (Keypad Column 4)   |     |
+|   |  PD2 (LCD SDA)           |     |
+|   |  PD3 (LCD SCL)          |     |
+|   |        |     |
 |   |  3.3V/5V (Power)           |     |
 |   |  GND (Ground)              |     |
 |   +----------------------------+     |
@@ -478,14 +478,14 @@ Pin diagram:
 
           Keypad                   LCD Display
 +------------------+       +----------------------+
-| Row 1 ---> GPIO1|       | SDA ---> GPIO9        |
-| Row 2 ---> GPIO2|        | SCL ---> GPIO10       |
-| Row 3 ---> GPIO3|       | VCC ---> 5V/3.3V      |
-| Row 4 ---> GPIO4|       | GND ---> GND          |
-| Column 1 ---> GPIO5|
-| Column 2 ---> GPIO6|
-| Column 3 ---> GPIO7|
-| Column 4 ---> GPIO8|
+| Row 1 ---> PC01|       | SDA ---> PD2      |
+| Row 2 ---> PC02|        | SCL ---> PD3       |
+| Row 3 ---> PC03|       | VCC ---> 5V/3.3V      |
+| Row 4 ---> PCO4|       | GND ---> GND          |
+| Column 1 ---> PC5|
+| Column 2 ---> PC6|
+| Column 3 ---> PC7|
+| Column 4 ---> PD1|
 +------------------+       +----------------------+
 
 
