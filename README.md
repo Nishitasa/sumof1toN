@@ -454,10 +454,43 @@ Ensure that the board is powered using an appropriate power supply.
 
 2.Display (7-segment LED or LCD):
 Connect the display pins to the appropriate GPIO (General Purpose Input/Output) pins on the RISC-V board.
+```
+Pin diagram:
++--------------------------------------+
+|              RISC-V Board            |
+|                                      |
+|   +----------------------------+     |
+|   |  GPIO1 (Keypad Row 1)      |     |
+|   |  GPIO2 (Keypad Row 2)      |     |
+|   |  GPIO3 (Keypad Row 3)      |     |
+|   |  GPIO4 (Keypad Row 4)      |     |
+|   |  GPIO5 (Keypad Column 1)   |     |
+|   |  GPIO6 (Keypad Column 2)   |     |
+|   |  GPIO7 (Keypad Column 3)   |     |
+|   |  GPIO8 (Keypad Column 4)   |     |
+|   |  GPIO9 (LCD SDA)           |     |
+|   |  GPIO10 (LCD SCL)          |     |
+|   |  GPIO11 (Servo PWM)        |     |
+|   |  3.3V/5V (Power)           |     |
+|   |  GND (Ground)              |     |
+|   +----------------------------+     |
++--------------------------------------+
+
+          Keypad                   LCD Display
++------------------+       +----------------------+
+| Row 1 ---> GPIO1|       | SDA ---> GPIO9        |
+| Row 2 ---> GPIO2|        | SCL ---> GPIO10       |
+| Row 3 ---> GPIO3|       | VCC ---> 5V/3.3V      |
+| Row 4 ---> GPIO4|       | GND ---> GND          |
+| Column 1 ---> GPIO5|
+| Column 2 ---> GPIO6|
+| Column 3 ---> GPIO7|
+| Column 4 ---> GPIO8|
++------------------+       +----------------------+
 
 
 
-![image](https://github.com/Nishitasa/vsd-quadron-intern/assets/173664538/112745d0-e33a-4cb0-8c7d-a95eb0cb1033)
+
 
 ## Program Code:
 
